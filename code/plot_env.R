@@ -1,17 +1,23 @@
 # This is used to plot env conditions
-
+# rm(list=ls())
 library(tidyverse)
-df<-read.csv(here::here("data","Environmental_Data.csv"))
-df$eisst<-rowMeans(df[,c("apesst","maesst","jnesst")])
-df$pisst<-rowMeans(df[,c("appsst","mapsst","jnpsst","jlpsst")])
-df$frdmn<-rowMeans(df[,c("aflow","mflow","jflow")])
-colname_df<-colnames(df)
+library(ggplot2)
 
-source("myfunction.R")
-y<-colname_df[c(32,33,34,5,13,16:29)]
+source(here::here("code","functions", "get_env_plot_functions.R"))
 
-fcyr<-2022
-#pdf("2022_Sockeye_Forecast_Env.png",width = 11,height = 7)
+env_data <- read_csv(here::here("data","Environmental_Data_Plot.csv"))
+
+env_data <- env_data %>%
+            mutate(eisst_a = eisst-mean(eisst),
+                   pos = eisst_a >=0)
+
+ggplot(env_data,aes(x = yr, y = eisst)) + geom_line()
+
+ggplot(env_data, aes(x = yr, y = eisst_a, fill = pos)) +
+  geom_col(position = "identity", colour = "black", size = 0.25) +
+  scale_fill_manual(values = c("#CCEEFF", "#FFDDDD"), guide = FALSE) +
+  theme_bw()
+
 for (i in 1:length(y)){
 
 ylab<-switch(y[i],"eisst"="Entrance Island SST",
@@ -30,16 +36,21 @@ ylab<-switch(y[i],"eisst"="Entrance Island SST",
   "Que_fry_wt"="Quesnel Fry Mean Weight"#,
   #"GOA.Chl.Sum"="GOA Chla Summer"
   )
-png(paste0("env_",ylab,".png"),width = 1000,height = 500)
-if(grepl("fry",ylab))
+}
+
+
+png("plot_env.png",width = 1000,height = 500)
+par(mfrow = c(1,2))
+#pdf("2022_Sockeye_Forecast_Env.png",width = 11,height = 7)
+i = 1 
 Plot.ev(ev=getev(ev.list=y[i],ev.mat=df,avg.last.yr = NA),
-        main=ylab,yr.offset=2,main.brood=as.numeric(fcyr)-3,cyc=T,
+        main=ylab,yr.offset=0,main.brood=as.numeric(fcyr)-3,cyc=F,
         axis.label="") 
-else
+i = 2 
 Plot.ev(ev=getev(ev.list=y[i],ev.mat=df,avg.last.yr = NA),
-          main=ylab,yr.offset=2,main.brood=as.numeric(fcyr)-2,cyc=T,
-          axis.label="") 
+        main=ylab,yr.offset=0,main.brood=as.numeric(fcyr)-3,cyc=F,
+        axis.label="") 
 
 dev.off()
-}
+
 
