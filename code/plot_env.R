@@ -1,56 +1,35 @@
-# This is used to plot env conditions
+# This code is used to plot env conditions
+# last update 2022.12.21. Questions contact Yi Xu by email: yi.xu2@dfo-mpo.gc.ca
+# 
 # rm(list=ls())
 library(tidyverse)
 library(ggplot2)
 
-source(here::here("code","functions", "get_env_plot_functions.R"))
+env_data <- read_csv(here::here("data","Environmental_Data_Plot.csv"),show_col_types = FALSE) %>%
+            mutate(year = yr + 2) %>%
+            select(-GOA.SST.Win, -GOA.SST.Sum, -yr) %>%
+            pivot_longer(!year) %>%
+            group_by(name) %>%
+            mutate(mean_env = mean(value),
+                   diff = value - mean_env >0)%>%
+            mutate(name=factor(name,levels=c("eisst","GOA.SST.Ann",
+                                             "pisst","Sockeye",
+                                             "frdmn","Chum",
+                                             "peak","Pink",
+                                             "pdo","Salmon_Total")))
+ylabel <- c("eisst"="Entrance Island SST","GOA.SST.Ann"="Gulf of Alaska SST",
+            "pisst"="Pine Island SST","Sockeye"="North Pacific Sockeye",
+            "frdmn"="Fraser River Discharge (mean)","Chum"="North Pacific Chum",
+            "peak"="Fraser River Discharge (peak)","Pink"="North Pacific Pink",
+            "pdo"="Pacific Decadal Osciallation","Salmon_Total"="North Pacific Total Salmon"
+            )
 
-env_data <- read_csv(here::here("data","Environmental_Data_Plot.csv"))
+ggplot(env_data, aes(x = year, y = mean_env, col = diff)) +
+  geom_segment(aes(xend = year, yend = value),size = 1.25) +
+  scale_color_manual(values = c("blue","red"), guide = "none") +
+  facet_wrap(~name, scales = "free_y",ncol = 2,labeller = as_labeller(ylabel)) +
+  ylab("")+
+  theme_bw()+
+  theme(text = element_text(size = 20))    
 
-env_data <- env_data %>%
-            mutate(eisst_a = eisst-mean(eisst),
-                   pos = eisst_a >=0)
-
-ggplot(env_data,aes(x = yr, y = eisst)) + geom_line()
-
-ggplot(env_data, aes(x = yr, y = eisst_a, fill = pos)) +
-  geom_col(position = "identity", colour = "black", size = 0.25) +
-  scale_fill_manual(values = c("#CCEEFF", "#FFDDDD"), guide = FALSE) +
-  theme_bw()
-
-for (i in 1:length(y)){
-
-ylab<-switch(y[i],"eisst"="Entrance Island SST",
-  "pisst"="Pine Island SST",
-  "frdmn"="Fraser River Discharge (mean)",
-  "peak"="Fraser River Discharge (peak)",
-  "pdo"="Pacific Decadal Osciallation",
-  "GOA.SST.Sum"="GOA SST Summer","NPGO.Sum"="NPGO Summer",
-  "GOA.SST.Win"="GOA SST Winter","NPGO.Win"="NPGO Winter",
-  "GOA.SST.Ann"="GOA SST Annual","NPGO.Ann"="NPGO Annual",
-  "Pink"="North Pacific Pink","Sockeye"="North Pacific Sockeye",
-  "Chum"="North Pacific Chum","Salmon_Total"="North Pacific Total Salmon",
-  "Shu_fry_len"="Shuswap Fry Mean Length",
-  "Shu_fry_wt"="Shuswap Fry Mean Weight",
-  "Que_fry_len"="Quesnel Fry Mean Length",
-  "Que_fry_wt"="Quesnel Fry Mean Weight"#,
-  #"GOA.Chl.Sum"="GOA Chla Summer"
-  )
-}
-
-
-png("plot_env.png",width = 1000,height = 500)
-par(mfrow = c(1,2))
-#pdf("2022_Sockeye_Forecast_Env.png",width = 11,height = 7)
-i = 1 
-Plot.ev(ev=getev(ev.list=y[i],ev.mat=df,avg.last.yr = NA),
-        main=ylab,yr.offset=0,main.brood=as.numeric(fcyr)-3,cyc=F,
-        axis.label="") 
-i = 2 
-Plot.ev(ev=getev(ev.list=y[i],ev.mat=df,avg.last.yr = NA),
-        main=ylab,yr.offset=0,main.brood=as.numeric(fcyr)-3,cyc=F,
-        axis.label="") 
-
-dev.off()
-
-
+ggsave(here::here("plot","plot_env.png"), height = 10, width = 8)

@@ -2,8 +2,6 @@
 
 library(tidyverse)
 
-source(here::here("code","functions", "get_env_plot_functions.R"))
-
 df<-read.csv(here::here("data","FC_Environmental_Data_2022_Std_Offset_Alt.csv"))
 
 df$eisst<-rowMeans(df[,c("apesst","maesst","jnesst")])
