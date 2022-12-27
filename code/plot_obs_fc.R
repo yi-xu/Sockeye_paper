@@ -46,7 +46,7 @@ string_want <-c("Best Rank","Best SD","Best R\nBest RMSE",
 dat_text <- data.frame(
   label = string_want,#data$justification[c(3,1,2,9,8,7,4,6,5)],
   pop   = data$pop[1:9],
-  x     = c(2, 3, 4,2, 3, 4,2, 3, 4),
+  x     = c(2, 3, 4, 2, 3, 4, 2, 3, 4),
   y     = c(6,6,6,15.25,15.25,15.25,14,14,14)
 )
 p_text <- geom_text(data = dat_text,mapping = aes(x = x, y= y, label = label), vjust = 1,size = 6)
