@@ -4,49 +4,61 @@ rm(list=ls())
 #setwd("C:/DFO-MPO/Work/Sockeye_paper/code") #set up your own directory that include all the updated env files
 
 library(tidyverse)
-#library(plotrix)
-source(here::here("code","mytaylor.R"))
-fc <- read_csv(here::here("data","historical_fc.csv"),show_col_types = FALSE)
-retro <- read_csv(here::here("data","retro_all_newmodels.csv"))
+library(plotrix)
+source("mytaylor.R")
+fc <- read_csv("../data/historical_fc.csv",show_col_types = FALSE)
+retro <- read_csv("../data/retro_all_newmodels.csv")
 
 retro <- retro %>%
   mutate(model = replace(model, model=="RickerPi","RickerPi.SST"),
          model = replace(model, model=="RickerEi","RickerEi.SST"),
+         model = replace(model, model=="RickerFRDMean","RickerFRD.mean"),
+         model = replace(model, model=="RickerFRDpeak","RickerFRD.peak"),
+         model = replace(model, model=="RickerSalmon_Total","RickerSalmon.Total"),
+         model = replace(model, model=="PowerSalmon_Total","PowerSalmon.Total"),
          model = replace(model, model=="RickerGOA.SST.Ann","RickerGOA.SST"),
          model = replace(model, model=="LarkinBasicCycAge","LarkinCyc"),
          model = replace(model, model=="PowerBasicCycAge","PowerCyc")) %>%
+  mutate(model = replace(model, model=="PowerJuvChum"&popID==11,"PowerChum"),
+         model = replace(model, model=="PowerJuvSockeye"&popID==11,"PowerSockeye"),
+         model = replace(model, model=="PowerJuvPink"&popID==11,"PowerPink"),
+         model = replace(model, model=="PowerJuvSalmon_Total"&popID==11,"PowerSalmon.Total"),
+         model = replace(model, model=="PowerJuv"&popID==11,"PowerBasic"),
+         model = replace(model, model=="RJ1"&popID==11,"R1C"),
+         model = replace(model, model=="RJ2"&popID==11,"R2C"),
+         model = replace(model, model=="RJC"&popID==11,"RAC")) %>%
   filter(!model %in% c("RickerGOA.SST.Sum",
                        "RickerGOA.SST.Win",
-                       "RickerNPGO.Ann","RickerNPGO.Sum","RickerNPGO.Win"))
+                       "RickerNPGO.Ann","RickerNPGO.Sum","RickerNPGO.Win","PowerPi"))
 
-oldricker<-c("RickerBasic","RickerCyc","RickerEi.SST","RickerFRDMean","RickerFRDpeak",
+oldricker<-c("RickerBasic","RickerCyc","RickerEi.SST","RickerFRD.mean","RickerFRD.peak",
              "RickerPDO","RickerPi.SST")
-oldpower<-c("PowerBasic","PowerCyc","PowerJuv","PowerJuvPi","PowerJuvEi",
+oldpower<-c("PowerBasic","PowerCyc",#"PowerJuv","PowerJuvPi","PowerJuvEi",
             "PowerFRDpeak","PowerPi")
 pname<-unique(fc$Stock)
 
-filename=paste0("Summer_Late_taylor.png")
-
-#filename=paste0("Early_Summer_taylor.png")
+pname[pname=="Upper Barriere(Fennell)"] <- "Fennell (Upper Barriere)"
 
 myseries <-c(3,4,0,1,2,5,6,7,8,9)
 
 n_model <- c("RickerBasic","RickerCyc",
-             "RickerEi.SST","RickerPi.SST","RickerFRDMean","RickerFRDpeak","RickerPDO",
-             "RickerGOA.SST.Ann","RickerSockeye","RickerChum","RickerPink","RickerSalmon_Total",
-             "LarkinBasic", "LarkinCyc","PowerBasic","PowerCyc","PowerPi",
-             "PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon_Total",
+             "RickerEi.SST","RickerPi.SST","RickerFRD.mean","RickerFRD.peak","RickerPDO",
+             "RickerGOA.SST","RickerSockeye","RickerChum","RickerPink","RickerSalmon.Total",
+             "LarkinBasic", "LarkinCyc","PowerBasic","PowerCyc",#"PowerPi",
+             "PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
              "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr")
 
-
-png(here::here("plot",filename),h=1500,w=1500)
+filename=paste0("../plot/plot_taylor_Summer_Late.png")
+# filename=paste0("../plot/plot_taylor_Early_Summer.png")
+png(filename,h=1500,w=1500)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
-#for (j in c(4,14,16,17,18,15,8,1,11)){
-for (j in c(7,2,6,3,5,9,12,13,10)){
-  if(j == 1) mytitlecolor <- "black"
-  if(j %in% c(11,9,12,13,10)) mytitlecolor <- "purple"
-  if(j %in% c(4,14,16,17,18,15,8)) mytitlecolor <- "darkgreen"
-  if(j %in% c(7,2,6,3,5)) mytitlecolor <- "blue"
+#for (j in c(1,4,14,15,17,18,8,16,7)){
+for (j in c(6,2,3,5,9,11,12,13,10)){
+
+  if(j == 1) mytitlecolor <- "red3" #Early Stuart
+  if(j %in% c(11,9,12,13,10)) mytitlecolor <- "purple" #Late
+  if(j %in% c(4,14,16,17,18,15,8)) mytitlecolor <- "forestgreen" #green #Early Summer
+  if(j %in% c(7,2,6,3,5)) mytitlecolor <- "blue" #Summer
   print(paste("Pop=",j))
   pop <- retro %>% filter(popID==j&age==99) 
   #n_model <- unique(pop$model)
@@ -67,7 +79,7 @@ for (j in c(7,2,6,3,5,9,12,13,10)){
   mypch<-mycolor<-rep(NA,length(n_model))
   mycolor[idx_larkin]<-"gold"
   mypch[idx_larkin]<-(1:length(idx_larkin))+2
-  mycolor[idx_power_old]<-"#61D04F" #green
+  mycolor[idx_power_old]<-"forestgreen"
   mypch[idx_power_old]<-myseries[1:length(idx_power_old)]
   mycolor[idx_power_new]<-"blue"
   mypch[idx_power_new]<-myseries[3:(length(idx_power_new)+2)]
@@ -88,22 +100,26 @@ for (j in c(7,2,6,3,5,9,12,13,10)){
       mutate(diff=p50-obs,p50,obs=obs/1e6) %>% filter(!is.na(diff)) %>%
       select(retyr,p50,obs) %>%
       left_join(fc %>% filter(popID==j) %>% select(retyr,Stock,fc),by="retyr") %>% mutate(fc=fc/1e6)
-    if(k==1) taylor.diagram(want$obs,want$obs,normalize=T,pch=16,pcex = 4,main=pname[j],col="black",cex=2,col.main = mytitlecolor,cex.main=3,ref.sd = T,xlab = "")
+    if(k==1) taylor.diagram(want$obs,want$obs,normalize=T,pch=16,pcex = 4,col="black",cex=2,main=pname[j],col.main = mytitlecolor,cex.main=3,ref.sd = T,xlab = "")
     #if(k==1) taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
     idx<-which(tot_n_model$model[k]==n_model)
-    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)
+    if(j==5|j==16)taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
+    else taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black")
   
   mtext("Taylor Diagram",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
-if(j == 15|j == 9) legend("right",c("Observation","Forecast",n_model),
+if(j == 18|j == 11) legend("right",c("Observation","Forecast",n_model),
        pch=c(16,15,mypch),
        col=c("black","black",mycolor),
        cex = 3,inset = c(-0.9,1),xpd = NA,
        bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
 #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
 }
-
+legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
+       text.col = c("red3","forestgreen","blue","purple"),
+       inset = c(-0.7,0),bty = "n",xpd = NA, cex = 3)
 dev.off()
+
