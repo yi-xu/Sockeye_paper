@@ -39,7 +39,7 @@ retro <- retro %>%
          model = replace(model, model=="RJC"&pop==11,"RAC")) %>%
   filter(!model %in% c("RickerGOA.SST.Sum",
                        "RickerGOA.SST.Win",
-                       "RickerNPGO.Ann","RickerNPGO.Sum","RickerNPGO.Win","PowerPi"))
+                       "RickerNPGO.Ann","RickerNPGO.Sum","RickerNPGO.Win"))
 
 oldricker<-c("RickerBasic","RickerCyc","RickerEi.SST","RickerFRD.mean","RickerFRD.peak",
              "RickerPDO","RickerPi.SST")
@@ -57,21 +57,23 @@ n_model <- c("RickerBasic","RickerCyc",
              "PowerBasic","PowerCyc",#"PowerPi",
              "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
              "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
-             "LarkinBasic", "LarkinCyc","LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr")
+             "LarkinBasic", "LarkinCyc",
+             "sibling5",
+             "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr") #not include this for age 4
 
-# filename=paste0("../plot/plot_taylor_Summer_Late.png")
-filename=paste0("../plot/plot_taylor_Early_Summer.png")
+filename=paste0("../plot/plot_taylor_Summer_Late_age5.png")
+# filename=paste0("../plot/plot_taylor_Early_Summer_age5.png")
 png(filename,h=1500,w=1500)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
-for (j in c(1,4,14,15,17,18,8,16,7)){
-#for (j in c(6,2,3,5,9,11,12,13,10)){
+#for (j in c(1,4,14,15,17,18,8,16,7)){
+for (j in c(6,2,3,5,9,11,12,13,10)){
 
   if(j == 1) mytitlecolor <- "red3" #Early Stuart
   if(j %in% c(11,9,12,13,10)) mytitlecolor <- "purple" #Late
   if(j %in% c(4,14,16,17,18,15,8)) mytitlecolor <- "forestgreen" #green #Early Summer
   if(j %in% c(7,2,6,3,5)) mytitlecolor <- "blue" #Summer
   print(paste("Pop=",j))
-  pop <- retro %>% filter(popID==j&age==99) 
+  pop <- retro %>% filter(popID==j&age==5) 
   #n_model <- unique(pop$model)
 
   tot_n_model <- pop %>% distinct(model) 
@@ -100,27 +102,27 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
   mypch[idx_ricker_new]<-myseries[3:(length(idx_ricker_new)+2)]
   mycolor[idx_naive]<-"mediumpurple1"
   mypch[idx_naive]<-0:(length(idx_naive)-1)
-  mycolor[idx_sib]<-"grey"
+  mycolor[idx_sib]<-"gold"
   mypch[idx_sib]<-15
   mycolor[idx_jack]<-"grey"
   mypch[idx_jack]<-16
   
   
   for (k in 1:length(tot_n_model$model)){
-    want <- pop %>% filter(model==tot_n_model$model[k]&age==99) %>% 
+    want <- pop %>% filter(model==tot_n_model$model[k]) %>% 
       mutate(diff=p50-obs,p50,obs=obs/1e6) %>% filter(!is.na(diff)) %>%
       select(retyr,p50,obs) %>%
       left_join(fc %>% filter(popID==j) %>% select(retyr,Stock,fc),by="retyr") %>% mutate(fc=fc/1e6)
     if(k==1) taylor.diagram(want$obs,want$obs,normalize=T,pch=16,pcex = 4,col="black",cex=2,cex.main=3,ref.sd = T,xlab = "",main = "")
-    #if(k==1) taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+    #if(k==1) taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black",xpd = NA)
     idx<-which(tot_n_model$model[k]==n_model)
     #if(j==5|j==16)taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
     #else 
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
-  taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black")
+  taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
   
-  mtext("Taylor Diagram",side=3,line=0.5,cex=3.5,outer = T)
+  mtext("Taylor Diagram (Age5)",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
 if(j == 18|j == 11) legend("right",c("Observation","Forecast",n_model),

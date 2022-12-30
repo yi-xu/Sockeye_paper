@@ -4,9 +4,9 @@
 rm(list=ls())
 
 library(tidyverse)
-#setwd("C:/DFO-MPO/Work/Sockeye_paper/code")
+setwd("C:/DFO-MPO/Work/Sockeye_paper/code")
 #retro <-read_csv(here::here("data","retro_all_newmodels.csv"),show_col_types = FALSE)
-retro <-read_csv("../data/retro_all_newmodels.csv",show_col_types = FALSE)
+retro <-read_csv("../data/retro_all_newmodels_2022.csv",show_col_types = FALSE)
 my_error <- function(obs,est,dev.type="all"){ #adpated from Gottfried code retro.pm.fun
   
   devs <- est-obs
@@ -34,11 +34,11 @@ my_error <- function(obs,est,dev.type="all"){ #adpated from Gottfried code retro
 #           "Late Shuswap", "Birkenhead","Cultus","Portage",
 #           "Weaver" ,"Upper Barriere(Fennell)","Scotch",
 #           "Gates","Nadina","Pitt")#,"Harrison")
-pname<-c( "Early Stuart", "Late Stuart","Stellako",
-          "Bowron","Raft","Quesnel", "Chilko","Seymour",
-          "Late Shu", "Birkenhead","Cultus","Portage",
-          "Weaver" ,"Fennell","Scotch",
-          "Gates","Nadina","Pitt")#,"Harrison")
+pname<-c( "Early\nStuart", "Late\nStuart","Stellako",
+          "Bowron","Raft","Quesnel", "\nChilko","\nSeymour",
+          "Late\nShuswap", "\nBirkenhead","Cultus","\nPortage",
+          "Weaver" ,"Fennell\nUpper Barriere","Scotch",
+          "Gates","\nNadina","Pitt")#,"Harrison")
 pname_tb <-tibble(pname = pname, pop = 1: 18)
 age_spec <-c(4,5,99)
 tb <- tibble()
@@ -94,7 +94,7 @@ for (ipop in 1:18){
 } # end ipop population ID
 
 
-write_csv(tb,file = "../data/organize_retro.csv")
+#write_csv(tb,file = "../data/organize_retro.csv")
 
 # new <- tb %>%
 #        select(pop, model, rel_rank_all) %>%
@@ -111,8 +111,10 @@ cols <- rev(brewer.pal(9, 'PiYG'))#'RdYlBu'))
 model_level <- c("RickerBasic","RickerCyc",
                  "RickerEi.SST","RickerPi.SST","RickerFRD.mean","RickerFRD.peak","RickerPDO",
                  "RickerGOA.SST","RickerSockeye","RickerChum","RickerPink","RickerSalmon.Total",
-                 "LarkinBasic", "LarkinCyc","PowerBasic","PowerCyc",#"PowerPi",
-                 "PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
+                 "PowerBasic","PowerCyc",
+                 "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
+                 "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
+                 "LarkinBasic","LarkinCyc",
                  "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr")
 pop_level <-pname[c(1,4,14,15,17,18,8,16,7,6,2,3,5,9,11,12,13,10)]
 
@@ -120,15 +122,23 @@ pop_level <-pname[c(1,4,14,15,17,18,8,16,7,6,2,3,5,9,11,12,13,10)]
 new <- tb %>%
   mutate(model = replace(model, model=="RickerPi","RickerPi.SST"),
          model = replace(model, model=="RickerEi","RickerEi.SST"),
+         model = replace(model, model=="PowerPi","PowerPi.SST"),
+         model = replace(model, model=="PowerEi","PowerEi.SST"),
          model = replace(model, model=="RickerFRDMean","RickerFRD.mean"),
          model = replace(model, model=="RickerFRDpeak","RickerFRD.peak"),
          model = replace(model, model=="RickerSalmon_Total","RickerSalmon.Total"),
          model = replace(model, model=="PowerSalmon_Total","PowerSalmon.Total"),
-         
+         model = replace(model, model=="PowerGOA.SST.Ann","PowerGOA.SST"),
          model = replace(model, model=="RickerGOA.SST.Ann","RickerGOA.SST"),
          model = replace(model, model=="LarkinBasicCycAge","LarkinCyc"),
          model = replace(model, model=="PowerBasicCycAge","PowerCyc")) %>%
-  mutate(model = replace(model, model=="PowerJuvChum"&pop==11,"PowerChum"),
+  mutate(model = replace(model, model=="PowerJuvEi"&pop==11,"PowerEi.SST"),
+         model = replace(model, model=="PowerJuvPi"&pop==11,"PowerPi.SST"),
+         model = replace(model, model=="PowerJuvPDO"&pop==11,"PowerPDO"),
+         model = replace(model, model=="PowerJuvFRD.mean"&pop==11,"PowerFRD.mean"),
+         model = replace(model, model=="PowerJuvFRD.peak"&pop==11,"PowerFRD.peak"),
+         model = replace(model, model=="PowerJuvGOA.SST.Ann"&pop==11,"PowerGOA.SST"),
+         model = replace(model, model=="PowerJuvChum"&pop==11,"PowerChum"),
          model = replace(model, model=="PowerJuvSockeye"&pop==11,"PowerSockeye"),
          model = replace(model, model=="PowerJuvPink"&pop==11,"PowerPink"),
          model = replace(model, model=="PowerJuvSalmon_Total"&pop==11,"PowerSalmon.Total"),
@@ -159,11 +169,12 @@ ggplot(new,aes(x = pname, y = model, fill = rel_rank_all)) +
   scale_x_discrete(limits = pop_level) +
   #geom_rect(aes(xmin = 0.5 , xmax = 18 + 0.5, ymin = 1 - 0.5, ymax = 11 + 0.35),
   # #         fill = "transparent", color ="#C51B7F", size = 1.5)+
-  geom_rect(aes(xmin = 0.5 , xmax = 18 + 0.5, ymin = 12 - 0.5, ymax = 15 + 0.55),
+  geom_rect(aes(xmin = 0.5 , xmax = 18 + 0.5, ymin = 14 - 0.5, ymax = 18 + 0.55),
             fill = "transparent", color = "darkgreen", size = 1.5)+
-  geom_rect(aes(xmin = 0.5 , xmax = 18 + 0.5, ymin = 20 - 0.5, ymax = 24 + 0.55),
+  geom_rect(aes(xmin = 0.5 , xmax = 18 + 0.5, ymin = 26 - 0.5, ymax = 30 + 0.55),
             fill = "transparent", color = "darkgreen", size = 1.5) +
-  xlab("")+ylab("")
+  xlab("")+ylab("")+
+  theme(text = element_text(size = 20)) 
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-ggsave("../plot/plot_rank.png", h = 7, w = 13)
+ggsave("../plot/plot_rank.png", h = 11, w = 19)
 

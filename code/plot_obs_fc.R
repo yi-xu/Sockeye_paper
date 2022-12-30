@@ -41,13 +41,14 @@ legend_plot <- ggplot()+
 legend_plot
 
 string_want <-c("Best Rank","Best SD","Best R\nBest RMSE",            
-"Best Rank\n2nd R\n2nd SD\n2nd RMSE", "Best R\nBest SD\nBest RMSE",          "3rd SD" ,                
-"Best R",                  "Best RMSE\nBest Rank" ,        "Best SD"  )  
+"Best R",                  "Best RMSE\nBest Rank" ,        "Best SD",
+"Best Rank\n2nd R\n2nd SD\n2nd RMSE", "Best R\nBest SD\nBest RMSE",          "3rd SD"              
+)  
 dat_text <- data.frame(
   label = string_want,#data$justification[c(3,1,2,9,8,7,4,6,5)],
   pop   = data$pop[1:9],
   x     = c(2, 3, 4, 2, 3, 4, 2, 3, 4),
-  y     = c(6,6,6,15.25,15.25,15.25,14,14,14)
+  y     = c(6,6,6,12,12,12,16,16,16)
 )
 p_text <- geom_text(data = dat_text,mapping = aes(x = x, y= y, label = label), vjust = 1,size = 6)
 p + p_text +inset_element(legend_plot, left = 0.85, bottom = 0.1, right = 1, top = 0.4, align_to = 'full')
