@@ -52,7 +52,7 @@ taylor.diagram<-function(ref,model,add=FALSE,col="red",pch=19,pos.cor = TRUE,
     # display the diagram
     if (pos.cor) {
       if (nchar(ylab) == 0) 
-        ylab = "Standard deviation"
+        ylab = " "
       plot(0, xlim = c(0, maxsd*1.1), ylim = c(0, maxsd*1.1), xaxs = "i", 
            yaxs = "i", axes = FALSE, main = main, xlab = "", 
            ylab = ylab, type = "n", cex = cex.axis,...)
@@ -84,7 +84,7 @@ taylor.diagram<-function(ref,model,add=FALSE,col="red",pch=19,pos.cor = TRUE,
         else gamma <- pretty(c(0, maxsd), n = ngamma)[-1]
         if (gamma[length(gamma)] > maxsd) 
           gamma <- gamma[-length(gamma)]
-        labelpos <- seq(45, 70, length.out = length(gamma))
+        labelpos <- seq(40, 70, length.out = length(gamma))
         # do the gamma curves
         for (gindex in 1:length(gamma)) {
           xcurve <- cos(seq(0, pi, by = 0.03)) * gamma[gindex] + sd.r
@@ -102,6 +102,10 @@ taylor.diagram<-function(ref,model,add=FALSE,col="red",pch=19,pos.cor = TRUE,
           if (xcurve[labelpos[gindex]] > 0) 
             boxed.labels(xcurve[labelpos[gindex]], ycurve[labelpos[gindex]], 
                          gamma[gindex], border = FALSE)
+          if (xcurve[labelpos[gindex]] > 0 & gindex == 1) 
+            boxed.labels(x = xcurve[55], y = ycurve[55], 
+                       "RMSE", border = FALSE)
+          #print(paste0(labelpos[1],"x==",xcurve[labelpos[1]],"y==",ycurve[labelpos[1]]))
         }
       }
       # the outer curve for correlation

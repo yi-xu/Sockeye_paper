@@ -68,7 +68,7 @@ n_model <- c("RickerBasic","RickerCyc",
 
 ############# first 9 stocks 
 # filename=paste0("../plot/plot_taylor_Summer_Late_age5.png")
-filename=paste0("../plot/plot_taylor_Early_Summer_age5.png")
+filename=paste0("../plot/plot_taylor_Early_Summer_age5_outside.png")
 png(filename,h=1500,w=1500)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
 for (j in c(1,4,14,15,17,18,8,16,7)){
@@ -124,7 +124,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
     idx<-which(tot_n_model$model[k]==n_model)
     #if(j==5|j==16)taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
     #else 
-    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
+    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
   
@@ -145,7 +145,7 @@ legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
 dev.off()
 
 ############# second 9 stocks 
-filename=paste0("../plot/plot_taylor_Summer_Late_age5.png")
+filename=paste0("../plot/plot_taylor_Summer_Late_age5_outside.png")
 # filename=paste0("../plot/plot_taylor_Early_Summer_age5.png")
 png(filename,h=1500,w=1500)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
@@ -202,7 +202,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
     idx<-which(tot_n_model$model[k]==n_model)
     #if(j==5|j==16)taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
     #else 
-    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
+    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
   
@@ -239,7 +239,7 @@ n_model <- c("RickerBasic","RickerCyc",
 
 ############# first 9 stocks 
 
-filename=paste0("../plot/plot_taylor_Early_Summer_age4.png")
+filename=paste0("../plot/plot_taylor_Early_Summer_age4_outside.png")
 png(filename,h=1500,w=1500)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
 for (j in c(1,4,14,15,17,18,8,16,7)){
@@ -295,7 +295,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
     idx<-which(tot_n_model$model[k]==n_model)
     #if(j==5|j==16)taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
     #else 
-    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
+    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
   
@@ -316,7 +316,7 @@ legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
 dev.off()
 
 ############# second 9 stocks 
-filename=paste0("../plot/plot_taylor_Summer_Late_age4.png")
+filename=paste0("../plot/plot_taylor_Summer_Late_age4_outside.png")
 # filename=paste0("../plot/plot_taylor_Early_Summer_age5.png")
 png(filename,h=1500,w=1500)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
@@ -373,7 +373,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
     idx<-which(tot_n_model$model[k]==n_model)
     #if(j==5|j==16)taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
     #else 
-    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
+    taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
   
