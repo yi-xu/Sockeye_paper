@@ -8,7 +8,7 @@ library(ggplot2)
 library(patchwork)
 #library(grid)
 data <- read_csv("../data/selected_models_comparison_2022.csv")
-
+data$model[10:12]<-c(" RickerEi*"," RickerEi"," RickerEi")
 
 p<-ggplot(data, aes(x= model, y = p50/1e6,width=0.5)) +
   geom_linerange(aes(ymin = p10/1e6, ymax = p90/1e6)) +
@@ -40,16 +40,14 @@ legend_plot <- ggplot()+
   
 legend_plot
 
-string_want <-c("Best Rank","Best SD","Best R\nBest RMSE",            
-"Best R",                  "Best RMSE\nBest Rank" ,        "Best SD",
-"Best Rank\n2nd R\n2nd SD\n2nd RMSE", "Best R\nBest SD\nBest RMSE",          "3rd SD"              
-)  
+string_want <-c("Forecast","Best Rank","Best SD","Best R\nBest RMSE",            
+                "Forecast","Best R","Best RMSE\nBest Rank" ,"Best SD",
+                "Forecast","Best Rank\n2nd R\n2nd SD\n2nd RMSE", "Best R\nBest SD\nBest RMSE","3rd SD")  
 dat_text <- data.frame(
   label = string_want,#data$justification[c(3,1,2,9,8,7,4,6,5)],
-  pop   = data$pop[1:9],
-  x     = c(2, 3, 4, 2, 3, 4, 2, 3, 4),
-  y     = c(6,6,6,12,12,12,16,16,16)
-)
+  pop   = rep(c("Chilko","Quesnel","Late Shuswap"),each = 4),
+  x     = c(rep(1:4,3)),
+  y     = c(rep(c(6,12,16),each = 4)))
 p_text <- geom_text(data = dat_text,mapping = aes(x = x, y= y, label = label), vjust = 1,size = 6)
 p + p_text +inset_element(legend_plot, left = 0.85, bottom = 0.1, right = 1, top = 0.4, align_to = 'full')
 ggsave("../plot/plot_obs_fc.png",w = 12, h = 11)

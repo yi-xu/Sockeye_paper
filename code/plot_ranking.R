@@ -108,19 +108,22 @@ cols <- rev(brewer.pal(9, 'PiYG'))#'RdYlBu'))
 #   theme_bw()
 # ggsave("raw_rank_all.png", h = 11, w = 7)
 
-model_level <- c("RickerBasic","RickerCyc",
+model_level <- c("Ricker","RickerCyc",
                  "RickerEi.SST","RickerPi.SST","RickerFRD.mean","RickerFRD.peak","RickerPDO",
                  "RickerGOA.SST","RickerSockeye","RickerChum","RickerPink","RickerSalmon.Total",
-                 "PowerBasic","PowerCyc",
+                 "Power","PowerCyc",
                  "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
                  "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
-                 "LarkinBasic","LarkinCyc",
+                 "Larkin","LarkinCyc",
                  "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr")
 pop_level <-pname[c(1,4,14,15,17,18,8,16,7,6,2,3,5,9,11,12,13,10)]
 
 
 new <- tb %>%
-  mutate(model = replace(model, model=="RickerPi","RickerPi.SST"),
+  mutate(model = replace(model, model=="RickerBasic","Ricker"),
+         model = replace(model, model=="PowerBasic","Power"),
+         model = replace(model, model=="LarkinBasic","Larkin"),
+         model = replace(model, model=="RickerPi","RickerPi.SST"),
          model = replace(model, model=="RickerEi","RickerEi.SST"),
          model = replace(model, model=="PowerPi","PowerPi.SST"),
          model = replace(model, model=="PowerEi","PowerEi.SST"),

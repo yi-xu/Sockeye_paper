@@ -11,7 +11,10 @@ retro <- read_csv("../data/retro_all_newmodels_2022.csv")
 
 retro <- retro %>%
   mutate(pop = popID) %>%
-  mutate(model = replace(model, model=="RickerPi","RickerPi.SST"),
+  mutate(model = replace(model, model=="RickerBasic","Ricker"),
+         model = replace(model, model=="PowerBasic","Power"),
+         model = replace(model, model=="LarkinBasic","Larkin"),
+         model = replace(model, model=="RickerPi","RickerPi.SST"),
          model = replace(model, model=="RickerEi","RickerEi.SST"),
          model = replace(model, model=="PowerPi","PowerPi.SST"),
          model = replace(model, model=="PowerEi","PowerEi.SST"),
@@ -41,9 +44,9 @@ retro <- retro %>%
                        "RickerGOA.SST.Win",
                        "RickerNPGO.Ann","RickerNPGO.Sum","RickerNPGO.Win"))
 
-oldricker<-c("RickerBasic","RickerCyc","RickerEi.SST","RickerFRD.mean","RickerFRD.peak",
+oldricker<-c("Ricker","RickerCyc","RickerEi.SST","RickerFRD.mean","RickerFRD.peak",
              "RickerPDO","RickerPi.SST")
-oldpower<-c("PowerBasic","PowerCyc","PowerEi.SST","PowerFRD.mean","PowerFRD.peak",#"PowerJuv","PowerJuvPi","PowerJuvEi",
+oldpower<-c("Power","PowerCyc","PowerEi.SST","PowerFRD.mean","PowerFRD.peak",#"PowerJuv","PowerJuvPi","PowerJuvEi",
             "PowerPDO","PowerPi.SST")
 pname<-unique(fc$Stock)
 
@@ -51,13 +54,13 @@ pname[pname=="Upper Barriere(Fennell)"] <- "Fennell (Upper Barriere)"
 
 myseries <-c(3,4,0,1,2,5,6,7,8,9)
 
-n_model <- c("RickerBasic","RickerCyc",
+n_model <- c("Ricker","RickerCyc",
              "RickerEi.SST","RickerPi.SST","RickerFRD.mean","RickerFRD.peak","RickerPDO",
              "RickerGOA.SST","RickerSockeye","RickerChum","RickerPink","RickerSalmon.Total",
-             "PowerBasic","PowerCyc",#"PowerPi",
+             "Power","PowerCyc",#"PowerPi",
              "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
              "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
-             "LarkinBasic", "LarkinCyc",
+             "Larkin", "LarkinCyc",
              "sibling5",
              "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr") #not include this for age 4
 
@@ -227,13 +230,13 @@ dev.off()
 
 
 ######age 4
-n_model <- c("RickerBasic","RickerCyc",
+n_model <- c("Ricker","RickerCyc",
              "RickerEi.SST","RickerPi.SST","RickerFRD.mean","RickerFRD.peak","RickerPDO",
              "RickerGOA.SST","RickerSockeye","RickerChum","RickerPink","RickerSalmon.Total",
-             "PowerBasic","PowerCyc",#"PowerPi",
+             "Power","PowerCyc",#"PowerPi",
              "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
              "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
-             "LarkinBasic", "LarkinCyc",
+             "Larkin", "LarkinCyc",
              #"sibling5",
              "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr") #not include this for age 4
 
