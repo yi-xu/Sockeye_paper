@@ -1,7 +1,7 @@
 ## This program is used to make taylor plots
 ## questions about this code contract Yi Xu, yi.xu2@dfo-mpo.gc.ca
 rm(list=ls())
-#setwd("C:/DFO-MPO/Work/Sockeye_paper/code") #set up your own directory that include all the updated env files
+setwd("C:/DFO-MPO/Work/Sockeye_paper/code") #set up your own directory that include all the updated env files
 
 library(tidyverse)
 library(plotrix)
@@ -11,7 +11,8 @@ retro <- read_csv("../data/retro_all_newmodels_2022.csv")
 
 retro <- retro %>%
   mutate(pop = popID) %>%
-  mutate(model = replace(model, model=="RickerBasic","Ricker"),
+  mutate(model = replace(model, model=="sibling5","Sibling"),
+         model = replace(model, model=="RickerBasic","Ricker"),
          model = replace(model, model=="PowerBasic","Power"),
          model = replace(model, model=="LarkinBasic","Larkin"),
          model = replace(model, model=="RickerPi","RickerPi.SST"),
@@ -61,7 +62,7 @@ n_model <- c("Ricker","RickerCyc",
              "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
              "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
              "Larkin", "LarkinCyc",
-             "sibling5",
+             "Sibling",
              "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr") #not include this for age 4
 
 
@@ -94,7 +95,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
   idx_ricker<-grep("Ricker",n_model)
   idx_ricker_old<-idx_ricker[n_model[idx_ricker]%in%oldricker]
   idx_ricker_new<-idx_ricker[!n_model[idx_ricker]%in%oldricker]
-  idx_sib<-grep("sibling5",n_model)
+  idx_sib<-grep("Sibling",n_model)
   idx_jack<-grep("Jacksib",n_model)
   
   idx_naive<-which(n_model%in%n_model[-c(idx_power,idx_ricker,idx_larkin,idx_sib)])
@@ -130,7 +131,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
-  
+  #mtext("Age5",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Taylor Diagram (Age5)",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
@@ -140,6 +141,7 @@ if(j == 18|j == 11) legend("right",c("Observation","Forecast",n_model),
        cex = 3,inset = c(-0.9,1),xpd = NA,
        bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
 #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+  rect(-0.07, 1.67, 2, 1.9, col = "white", border = "white")
   title(main=pname[j],col.main = mytitlecolor,cex.main = 4)
 }
 legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
@@ -172,7 +174,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
   idx_ricker<-grep("Ricker",n_model)
   idx_ricker_old<-idx_ricker[n_model[idx_ricker]%in%oldricker]
   idx_ricker_new<-idx_ricker[!n_model[idx_ricker]%in%oldricker]
-  idx_sib<-grep("sibling5",n_model)
+  idx_sib<-grep("Sibling",n_model)
   idx_jack<-grep("Jacksib",n_model)
   
   idx_naive<-which(n_model%in%n_model[-c(idx_power,idx_ricker,idx_larkin,idx_sib)])
@@ -208,7 +210,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
-  
+  #mtext("Age5",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Taylor Diagram (Age5)",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
@@ -218,6 +220,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
                              cex = 3,inset = c(-0.9,1),xpd = NA,
                              bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
   #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+  rect(-0.07, 1.67, 2, 1.9, col = "white", border = "white")
   title(main=pname[j],col.main = mytitlecolor,cex.main = 4)
 }
 legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
@@ -237,7 +240,6 @@ n_model <- c("Ricker","RickerCyc",
              "PowerEi.SST","PowerPi.SST","PowerFRD.mean","PowerFRD.peak","PowerPDO",
              "PowerGOA.SST","PowerSockeye","PowerChum" ,"PowerPink","PowerSalmon.Total",
              "Larkin", "LarkinCyc",
-             #"sibling5",
              "LLY","R1C","R2C","RAC","TSA","RS1","RS2","RSC","MRS","RS4yr","RS8yr") #not include this for age 4
 
 ############# first 9 stocks 
@@ -265,7 +267,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
   idx_ricker<-grep("Ricker",n_model)
   idx_ricker_old<-idx_ricker[n_model[idx_ricker]%in%oldricker]
   idx_ricker_new<-idx_ricker[!n_model[idx_ricker]%in%oldricker]
-  idx_sib<-grep("sibling5",n_model)
+  idx_sib<-grep("Sibling",n_model)
   idx_jack<-grep("Jacksib",n_model)
   
   idx_naive<-which(n_model%in%n_model[-c(idx_power,idx_ricker,idx_larkin,idx_sib)])
@@ -301,7 +303,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
-  
+  #mtext("Age4",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Taylor Diagram (Age4)",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
@@ -311,6 +313,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
                              cex = 3,inset = c(-0.9,1),xpd = NA,
                              bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
   #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+  rect(0, 1.67, 1.6, 1.8, col = "white", border = "white")
   title(main=pname[j],col.main = mytitlecolor,cex.main = 4)
 }
 legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
@@ -343,7 +346,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
   idx_ricker<-grep("Ricker",n_model)
   idx_ricker_old<-idx_ricker[n_model[idx_ricker]%in%oldricker]
   idx_ricker_new<-idx_ricker[!n_model[idx_ricker]%in%oldricker]
-  idx_sib<-grep("sibling5",n_model)
+  idx_sib<-grep("Sibling",n_model)
   idx_jack<-grep("Jacksib",n_model)
   
   idx_naive<-which(n_model%in%n_model[-c(idx_power,idx_ricker,idx_larkin,idx_sib)])
@@ -379,7 +382,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black",xpd= NA)
-  
+  #mtext("Age4",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Taylor Diagram (Age4)",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
@@ -389,6 +392,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
                              cex = 3,inset = c(-0.9,1),xpd = NA,
                              bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
   #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+  rect(-0.07, 1.67, 2, 1.9, col = "white", border = "white")
   title(main=pname[j],col.main = mytitlecolor,cex.main = 4)
 }
 legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),

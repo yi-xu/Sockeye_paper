@@ -164,7 +164,7 @@ new <- tb %>%
 
 ggplot(new,aes(x = pname, y = model, fill = R)) +
   geom_tile(colour = "white", size = 0.2) +
-  scale_fill_gradientn(colours = cols,name = "Correlation (R) \nForecast vs Observation",
+  scale_fill_gradientn(colours = cols,name = "Correlation\nForecast vs Observation",
                        limits = c(-1, 1),breaks = c(-1,-0.5,0,0.5,1))+#,labels = c("0 Best Model","0.5","1.0 Worst Model")) +
   theme_bw() +
   scale_y_discrete(limits = rev(model_level))+

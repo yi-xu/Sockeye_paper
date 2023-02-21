@@ -165,7 +165,7 @@ new <- tb %>%
 
 ggplot(new,aes(x = pname, y = model, fill = rel_rank_RMSE)) +
   geom_tile(colour = "white", size = 0.2) +
-  scale_fill_gradientn(colours = cols,name = "RMSE\nRelative Ranking",
+  scale_fill_gradientn(colours = cols,name = "RMSE\nRelative Rank",
                        breaks = c(min(new$rel_rank_all),0.5,1),labels = c("0 Best Model","0.5","1.0 Worst Model")) +
   theme_bw() +
   scale_y_discrete(limits = rev(model_level))+

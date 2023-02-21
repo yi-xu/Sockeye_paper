@@ -8,7 +8,7 @@ library(ggplot2)
 library(patchwork)
 #library(grid)
 data <- read_csv("../data/selected_models_comparison_2022.csv")
-data$model[10:12]<-c(" RickerEi*"," RickerEi"," RickerEi")
+data$model[10:12]<-c(" RickerEi.SST*"," RickerEi.SST"," RickerEi.SST")
 
 p<-ggplot(data, aes(x= model, y = p50/1e6,width=0.5)) +
   geom_linerange(aes(ymin = p10/1e6, ymax = p90/1e6)) +

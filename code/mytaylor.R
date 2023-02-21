@@ -222,7 +222,8 @@ taylor.diagram<-function(ref,model,add=FALSE,col="red",pch=19,pos.cor = TRUE,
     }
   }
   # display the points
+  if(sd.f*R>-0.1)
   points(sd.f * R, sd.f * sin(acos(R)), pch = pch, col = col, 
          cex = pcex,...)
-  invisible(oldpar)
+ # invisible(oldpar)
 }

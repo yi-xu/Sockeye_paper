@@ -132,6 +132,7 @@ if(j == 18|j == 11) legend("right",c("Observation","Forecast",n_model),
        cex = 3,inset = c(-0.9,1),xpd = NA,
        bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
 #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+  rect(-0.1, 1.6, 2, 1.9, col = "white", border = "white")
   title(main=pname[j],col.main = mytitlecolor,cex.main = 4)
 }
 legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
@@ -212,6 +213,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
                              cex = 3,inset = c(-0.9,1),xpd = NA,
                              bg=NA,bty = "n",ncol=1,pt.lwd = 2) #else
   #taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 4,add=T,col="black")
+  rect(-0.1, 1.67, 2, 1.9, col = "white", border = "white")
   title(main=pname[j],col.main = mytitlecolor,cex.main = 4)
 }
 legend("bottomright", c("Early Stuart","Early Summer","Summer","Late"),
