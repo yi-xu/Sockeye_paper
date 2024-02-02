@@ -50,5 +50,5 @@ dat_text <- data.frame(
   y     = c(rep(c(6,12,16),each = 4)))
 p_text <- geom_text(data = dat_text,mapping = aes(x = x, y= y, label = label), vjust = 1,size = 6)
 p + p_text +inset_element(legend_plot, left = 0.85, bottom = 0.1, right = 1, top = 0.4, align_to = 'full')
-ggsave("../plot/plot_obs_fc.png",w = 12, h = 11)
-
+#ggsave("../plot/plot_obs_fc.png",w = 12, h = 11)
+ggsave("../plot/plot6.pdf",w = 12, h = 11)

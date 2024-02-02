@@ -177,7 +177,8 @@ ggplot(new,aes(x = pname, y = model, fill = rel_rank_all)) +
   geom_rect(aes(xmin = 0.5 , xmax = 18 + 0.5, ymin = 26 - 0.5, ymax = 30 + 0.55),
             fill = "transparent", color = "darkgreen", size = 1.5) +
   xlab("")+ylab("")+
-  theme(text = element_text(size = 20)) 
+  theme(text = element_text(size = 20)) +
+  theme(legend.key.height= unit(4, 'cm'))
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ggsave("../plot/plot_rank.png", h = 11, w = 19)
-
+ggsave("../plot/plot3.pdf", h = 11, w = 19)

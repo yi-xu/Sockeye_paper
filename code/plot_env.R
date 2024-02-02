@@ -30,6 +30,7 @@ ggplot(env_data, aes(x = year, y = mean_env, col = diff)) +
   facet_wrap(~name, scales = "free_y",ncol = 2,labeller = as_labeller(ylabel)) +
   ylab("")+
   theme_bw()+
-  theme(text = element_text(size = 20))    
+  theme(text = element_text(size = 19))    
 
 ggsave(here::here("plot","plot_env.png"), height = 10, width = 8)
+ggsave(here::here("plot","plot2.pdf"), height = 10, width = 8)

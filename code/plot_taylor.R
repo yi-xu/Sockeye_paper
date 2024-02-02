@@ -64,7 +64,8 @@ n_model <- c("Ricker","RickerCyc",
 ##########make taylor plot first 9 stocks Figure 3a############
 # filename=paste0("../plot/plot_taylor_Summer_Late.png")
 filename=paste0("../plot/plot_taylor_Early_Summer.png")
-png(filename,h=1500,w=1500)
+#png(filename,h=1500,w=1500)
+pdf("../plot/plot5a.pdf",h=22,w=22)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
 for (j in c(1,4,14,15,17,18,8,16,7)){
 #for (j in c(6,2,3,5,9,11,12,13,10)){
@@ -145,7 +146,8 @@ dev.off()
 ##########make taylor plot first 9 stocks Figure 3b############
 filename=paste0("../plot/plot_taylor_Summer_Late.png")
 #filename=paste0("../plot/plot_taylor_Early_Summer.png")
-png(filename,h=1500,w=1500)
+#png(filename,h=1500,w=1500)
+pdf("../plot/plot5b.pdf",h=22,w=22)
 par(mfrow=c(3,3),omi = c(1, 1, 1, 4),xpd = NA) 
 #for (j in c(1,4,14,15,17,18,8,16,7)){
 for (j in c(6,2,3,5,9,11,12,13,10)){

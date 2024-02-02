@@ -180,6 +180,7 @@ ggplot(new,aes(x = pname, y = model, fill = R)) +
   theme(legend.key.height= unit(4, 'cm'))#        legend.key.width= unit(4, 'cm'))
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ggsave("../plot/plot_rank_R.png", h = 11, w = 19)
+ggsave("../plot/plot4.pdf", h = 11, w = 19)
 ############ standard deviation
 cols <- brewer.pal(11, 'RdBu')#'RdYlBu')
 ggplot(new,aes(x = pname, y = model, fill = SD)) +
@@ -202,4 +203,5 @@ ggplot(new,aes(x = pname, y = model, fill = SD)) +
   theme(text = element_text(size = 20)) +
   theme(legend.key.height= unit(4, 'cm'))#        legend.key.width= unit(4, 'cm'))
 #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-ggsave("../plot/plot_rank_SD.png", h = 11, w = 19)
+#ggsave("../plot/plot_rank_SD.png", h = 11, w = 19)
+#ggsave("../plot/plot_rank_SD.pdf", h = 11, w = 19)
