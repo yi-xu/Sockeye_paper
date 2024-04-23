@@ -123,7 +123,7 @@ for (j in c(1,4,14,15,17,18,8,16,7)){
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black")
-  mtext("Fig5(a)",side=3,line=0.5,cex=3.5,outer = T, adj = 0)
+  mtext("Fig5a",side=3,line=0.5,cex=3.5,outer = T, adj = 0)
   mtext("Taylor Diagram",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
@@ -205,7 +205,7 @@ for (j in c(6,2,3,5,9,11,12,13,10)){
     taylor.diagram(want$obs,want$p50,add = T,pch=mypch[idx],col=mycolor[idx],normalize=T,pcex = 3,lwd = 2)#,xpd=NA)
   }
   taylor.diagram(want$obs,want$fc,normalize=T,pch=15,pcex = 3,add=T,col="black")
-  mtext("Fig5(b)",side=3,line=0.5,cex=3.5,outer = T, adj = 0)
+  mtext("Fig5b",side=3,line=0.5,cex=3.5,outer = T, adj = 0)
   mtext("Taylor Diagram",side=3,line=0.5,cex=3.5,outer = T)
   mtext("Standard deviation",side=1,line=2,cex=2,outer = T)
   mtext("Standard deviation",side=2,line=2,cex=2,outer = T)
